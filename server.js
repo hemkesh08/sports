@@ -547,6 +547,50 @@ app.get('/api/dashboard/summary', (req, res) => {
   });
 });
 
+// 12. GET /api/sports_event_sponsorship_kit_donati/:id/detail (Retrieve valid record details combined with full audit logs history joined)
+app.get('/api/sports_event_sponsorship_kit_donati/:id/detail', (req, res) => {
+  const { id } = req.params;
+  const sponsorshipQuery = `SELECT * FROM sports_event_sponsorship_kit_donation WHERE id = ?`;
+
+  db.get(sponsorshipQuery, [id], (err, row) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, message: "Error retrieving sponsorship record." });
+    }
+    if (!row) {
+      return res.status(404).json({ success: false, error: "RECORD_NOT_FOUND", message: `Sponsorship ID ${id} not found.` });
+    }
+
+    const parsedRow = {
+      ...row,
+      items_donated: JSON.parse(row.items_donated),
+      brand_visibility_received: JSON.parse(row.brand_visibility_received)
+    };
+
+    const auditQuery = `SELECT * FROM audit_logs WHERE sponsorship_id = ? ORDER BY created_at DESC`;
+    db.all(auditQuery, [id], (auditErr, auditRows) => {
+      if (auditErr) {
+        console.error(auditErr);
+        return res.status(500).json({ success: false, message: "Error retrieving related audit histories." });
+      }
+
+      const formattedAuditLogs = auditRows.map(r => ({
+        ...r,
+        items_donated: JSON.parse(r.items_donated || "[]"),
+        brand_visibility_received: JSON.parse(r.brand_visibility_received || "{}")
+      }));
+
+      res.status(200).json({
+        success: true,
+        data: {
+          sponsorship: parsedRow,
+          auditLogs: formattedAuditLogs
+        }
+      });
+    });
+  });
+});
+
 // Serve frontend static production-built files
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 

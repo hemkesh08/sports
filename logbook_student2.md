@@ -144,3 +144,11 @@
   * Checked route integrations for all endpoints.
 * **Key Decisions**:
   * Calculated warning flags dynamically inside the Express dashboard controller to evaluate live ROI status anomalies on client loads.
+
+### Day 20: 23 June 2026
+* **Tasks Undertaken**:
+  * Coded `GET /api/sports_event_sponsorship_kit_donati/:id/detail` inside [server.js](file:///C:/Users/Shiva/.gemini/antigravity/scratch/oxygen-sports-tracker/backend/server.js) fetching joint audit logs and record histories.
+  * Handled table join checks returning clean empty arrays when audit logs are not present.
+  * Verified database constraints over the 15 newly seeded records.
+* **Key Decisions**:
+  * Configured JSON deserializations directly in the database callback wrapper to simplify payload parsing for the client details component.
