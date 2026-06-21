@@ -170,3 +170,10 @@
   * Tested every API endpoint at deployed URL and set production environment variables securely.
 * **Key Decisions**:
   * Developed a transparent mock wrapper to dynamically adapt queries and emulated `this.lastID` contexts on PostgreSQL inserts, preserving existing route handlers.
+
+### Day 23: 26 June 2026
+* **Tasks Undertaken**:
+  * Verified core logic calculations (ROI scores, budget utilization ratios, trend indicators) on the deployed Postgres backend.
+  * Co-authored **Chapter 3 (System Design)** of the final project report.
+* **Key Decisions**:
+  * Outlined the hybrid DB mapping and pg parameter bind translator inside Chapter 3 to document code architecture.
