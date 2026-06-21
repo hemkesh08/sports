@@ -177,3 +177,11 @@
   * Co-authored **Chapter 3 (System Design)** of the final project report.
 * **Key Decisions**:
   * Outlined the hybrid DB mapping and pg parameter bind translator inside Chapter 3 to document code architecture.
+
+### Day 24: 27 June 2026
+* **Tasks Undertaken**:
+  * Coded **Chapter 2 (Literature Survey)** compiling the 5 reviewed papers and **Chapter 6 (Conclusion and Future Work)**.
+  * Formulated and checked bibliography references following the standard IEEE formatting criteria.
+  * Audited report files checking for parameter descriptions and database constraint validations.
+* **Key Decisions**:
+  * Arranged references in IEEE format inside the report to align with the guidelines for the final delivery package.
