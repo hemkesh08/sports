@@ -185,3 +185,10 @@
   * Audited report files checking for parameter descriptions and database constraint validations.
 * **Key Decisions**:
   * Arranged references in IEEE format inside the report to align with the guidelines for the final delivery package.
+
+### Day 25: 29 June 2026
+* **Tasks Undertaken**:
+  * Demonstrated system architecture diagrams and working worked examples of the ROI calculation parameters.
+  * Verified live deployed POST, GET, and PUT API routes inside Postman to the evaluators.
+* **Key Decisions**:
+  * Showed database query mappings showing how parameters bind dynamically under PostgreSQL configurations.
