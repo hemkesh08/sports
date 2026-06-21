@@ -121,7 +121,7 @@
 * **Key Decisions**:
   * Enforced budget validations on PUT requests to block over-budget edits to existing logs.
 
-### Day 17: 19 June 2026
+### Day 17: 20 June 2026
 * **Tasks Undertaken**:
   * Presented the backend database model, system architecture, and ER diagram to evaluator **Pamba Vamshi Krishna Sir**.
   * Walked through a worked numerical example demonstrating the logic engine's weighted ROI indexing rules.
