@@ -120,3 +120,11 @@
   * Configured GET and POST paths for `/api/audit_logs` inside [server.js](file:///C:/Users/Shiva/.gemini/antigravity/scratch/oxygen-sports-tracker/backend/server.js).
 * **Key Decisions**:
   * Enforced budget validations on PUT requests to block over-budget edits to existing logs.
+
+### Day 17: 19 June 2026
+* **Tasks Undertaken**:
+  * Presented the backend database model, system architecture, and ER diagram to evaluator **Pamba Vamshi Krishna Sir**.
+  * Walked through a worked numerical example demonstrating the logic engine's weighted ROI indexing rules.
+  * Showed POST, GET, and PUT API requests working in Postman with real data.
+* **Key Decisions**:
+  * Decided to implement a CSV export handler in the next milestones based on reviewer recommendations.
