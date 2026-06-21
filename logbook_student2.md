@@ -152,3 +152,12 @@
   * Verified database constraints over the 15 newly seeded records.
 * **Key Decisions**:
   * Configured JSON deserializations directly in the database callback wrapper to simplify payload parsing for the client details component.
+
+### Day 21: 24 June 2026
+* **Tasks Undertaken**:
+  * Wrapped all Express route handlers in try-catch blocks to prevent unhandled promise rejections.
+  * Standardised all API errors to follow `{"success":false,"message":"specific message","code":400/404/500}` structure.
+  * Implemented an input sanitisation middleware stripping HTML tags and dangerous characters from incoming strings and parameter payloads.
+  * Configured payload limitations (1mb limit) in the body parser to guard against extra-large requests.
+* **Key Decisions**:
+  * Targeted only specific text/input parameters for character sanitisation to avoid breaking JSON string patterns inside nested fields (like serialized kit items).
