@@ -497,6 +497,56 @@ app.get('/api/sports_event_sponsorship_kit_donati/export', (req, res) => {
   });
 });
 
+// 11. GET /api/dashboard/summary (Dashboard summary widgets numbers)
+app.get('/api/dashboard/summary', (req, res) => {
+  const query = `SELECT * FROM sports_event_sponsorship_kit_donation`;
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: "Failed fetching dashboard stats." });
+    }
+
+    let totalSpend = 0;
+    let activeCount = 0;
+    let completedCount = 0;
+    let warningAlertsCount = 0;
+
+    rows.forEach(row => {
+      totalSpend += row.total_cost;
+      if (['Draft', 'Approved', 'Disbursed'].includes(row.status)) {
+        activeCount++;
+      }
+      if (row.status === 'Completed') {
+        completedCount++;
+      }
+
+      const budgetLimit = row.budget_limit;
+      const totalCost = row.total_cost;
+      const budgetUtilization = budgetLimit > 0 ? (totalCost / budgetLimit) * 100 : 0;
+      
+      let visibilityCount = 0;
+      try {
+        const visibility = JSON.parse(row.brand_visibility_received);
+        visibilityCount = Object.values(visibility).filter(v => v === true).length;
+      } catch (e) {}
+
+      if (budgetUtilization > 90.0 || visibilityCount === 0) {
+        warningAlertsCount++;
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      summary: {
+        totalSpend,
+        activeCount,
+        completedCount,
+        warningAlertsCount,
+        totalRecords: rows.length
+      }
+    });
+  });
+});
+
 // Serve frontend static production-built files
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 

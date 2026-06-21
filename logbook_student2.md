@@ -136,3 +136,11 @@
   * Configured error response status headers on CSV failures.
 * **Key Decisions**:
   * Implemented manual JS aggregation in Express to dynamically fill 30-day date series gaps with zero counts, ensuring line charts render smoothly in the UI.
+
+### Day 19: 22 June 2026
+* **Tasks Undertaken**:
+  * Coded the global stats summary API `GET /api/dashboard/summary` in [server.js](file:///C:/Users/Shiva/.gemini/antigravity/scratch/oxygen-sports-tracker/backend/server.js) computing overall spend, active projects, completed campaigns, and warning flags.
+  * Seeded the SQLite database with 10 realistic test entries representing local schools and tournament campaigns.
+  * Checked route integrations for all endpoints.
+* **Key Decisions**:
+  * Calculated warning flags dynamically inside the Express dashboard controller to evaluate live ROI status anomalies on client loads.
