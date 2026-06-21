@@ -398,6 +398,105 @@ app.get('/api/sports_event_sponsorship_kit_donati/:id/engine_analysis', (req, re
   });
 });
 
+// 9. GET /api/reports/summary (Summary counts & analytics time series)
+app.get('/api/reports/summary', (req, res) => {
+  const { startDate, endDate } = req.query;
+  let query = `SELECT * FROM sports_event_sponsorship_kit_donation WHERE 1=1`;
+  const params = [];
+
+  if (startDate) {
+    query += ` AND event_date >= ?`;
+    params.push(startDate);
+  }
+  if (endDate) {
+    query += ` AND event_date <= ?`;
+    params.push(endDate);
+  }
+
+  db.all(query, params, (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, message: "Error compiling reports stats." });
+    }
+
+    let totalSpend = 0;
+    let totalBudget = 0;
+    const categoryCounts = { School: 0, Tournament: 0, Academy: 0, Club: 0 };
+    const categorySpends = { School: 0, Tournament: 0, Academy: 0, Club: 0 };
+    const statusCounts = { Draft: 0, Approved: 0, Disbursed: 0, Completed: 0, Archived: 0 };
+
+    rows.forEach(row => {
+      totalSpend += row.total_cost;
+      totalBudget += row.budget_limit;
+      if (categoryCounts[row.category] !== undefined) {
+        categoryCounts[row.category]++;
+        categorySpends[row.category] += row.total_cost;
+      }
+      if (statusCounts[row.status] !== undefined) {
+        statusCounts[row.status]++;
+      }
+    });
+
+    const averageBudgetUtilization = totalBudget > 0 ? parseFloat(((totalSpend / totalBudget) * 100).toFixed(2)) : 0;
+
+    // Compile last 30 days time series data (by date)
+    const timeSeriesMap = {};
+    // Pre-populate last 30 days with 0s
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateString = d.toISOString().split('T')[0];
+      timeSeriesMap[dateString] = { date: dateString, cost: 0, count: 0 };
+    }
+
+    // Populate actuals
+    rows.forEach(row => {
+      const datePart = row.created_at ? row.created_at.split(' ')[0] : row.event_date;
+      if (timeSeriesMap[datePart]) {
+        timeSeriesMap[datePart].cost += row.total_cost;
+        timeSeriesMap[datePart].count++;
+      }
+    });
+
+    const timeSeries = Object.values(timeSeriesMap).sort((a, b) => a.date.localeCompare(b.date));
+
+    res.status(200).json({
+      success: true,
+      summary: {
+        totalRecords: rows.length,
+        totalSpend,
+        totalBudget,
+        averageBudgetUtilization,
+        categoryCounts,
+        categorySpends,
+        statusCounts,
+        timeSeries
+      }
+    });
+  });
+});
+
+// 10. GET /api/sports_event_sponsorship_kit_donati/export (Export CSV format database)
+app.get('/api/sports_event_sponsorship_kit_donati/export', (req, res) => {
+  const query = `SELECT * FROM sports_event_sponsorship_kit_donation ORDER BY created_at DESC`;
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: "Failed database export." });
+    }
+
+    let csvContent = "ID,Recipient Event/School,Date,Category,Budget Limit (INR),Total Cost (INR),Status,Notes,Created At\n";
+    rows.forEach(row => {
+      const nameEscaped = `"${row.event_name.replace(/"/g, '""')}"`;
+      const notesEscaped = `"${(row.notes || '').replace(/"/g, '""')}"`;
+      csvContent += `${row.id},${nameEscaped},${row.event_date},${row.category},${row.budget_limit},${row.total_cost},${row.status},${notesEscaped},${row.created_at}\n`;
+    });
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=sports_sponsorships_export.csv');
+    res.status(200).send(csvContent);
+  });
+});
+
 // Serve frontend static production-built files
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 

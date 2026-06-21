@@ -128,3 +128,11 @@
   * Showed POST, GET, and PUT API requests working in Postman with real data.
 * **Key Decisions**:
   * Decided to implement a CSV export handler in the next milestones based on reviewer recommendations.
+
+### Day 18: 20 June 2026
+* **Tasks Undertaken**:
+  * Programmed the summary API endpoint `GET /api/reports/summary` inside [server.js](file:///C:/Users/Shiva/.gemini/antigravity/scratch/oxygen-sports-tracker/backend/server.js) that returns total spend, active counts, and 30-day time-series cost groupings.
+  * Coded the data backup/export endpoint `GET /api/sports_event_sponsorship_kit_donati/export` which compiles records into download-ready CSV strings.
+  * Configured error response status headers on CSV failures.
+* **Key Decisions**:
+  * Implemented manual JS aggregation in Express to dynamically fill 30-day date series gaps with zero counts, ensuring line charts render smoothly in the UI.
