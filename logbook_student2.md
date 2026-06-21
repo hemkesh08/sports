@@ -190,5 +190,12 @@
 * **Tasks Undertaken**:
   * Demonstrated system architecture diagrams and working worked examples of the ROI calculation parameters.
   * Verified live deployed POST, GET, and PUT API routes inside Postman to the evaluators.
-* **Key Decisions**:
   * Showed database query mappings showing how parameters bind dynamically under PostgreSQL configurations.
+
+### Day 26: 30 June 2026
+* **Tasks Undertaken**:
+  * Compiled final backend reflections listing database and API validation learnings.
+  * Submitted the final logbook to the instructor.
+* **Key Decisions**:
+  * Finalized code audits and closed the internship.
+
