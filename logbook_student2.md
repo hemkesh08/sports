@@ -161,3 +161,12 @@
   * Configured payload limitations (1mb limit) in the body parser to guard against extra-large requests.
 * **Key Decisions**:
   * Targeted only specific text/input parameters for character sanitisation to avoid breaking JSON string patterns inside nested fields (like serialized kit items).
+
+### Day 22: 25 June 2026
+* **Tasks Undertaken**:
+  * Created a hybrid PostgreSQL/SQLite database layer inside [db.js](file:///C:/Users/Shiva/.gemini/antigravity/scratch/oxygen-sports-tracker/backend/db.js) mapping parameters dynamically from standard SQLite format `?` to PostgreSQL format `$1`.
+  * Added `pg` npm package dependency to backend dependencies.
+  * Deployed the Express server to Render connected with a remote Supabase PostgreSQL database instances.
+  * Tested every API endpoint at deployed URL and set production environment variables securely.
+* **Key Decisions**:
+  * Developed a transparent mock wrapper to dynamically adapt queries and emulated `this.lastID` contexts on PostgreSQL inserts, preserving existing route handlers.
